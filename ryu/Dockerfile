@@ -17,7 +17,7 @@ RUN apt-get update &&
     unzip master.zip && \
     mv ryu-master ryu && \
     rm ./ryu-master.zip && \
-    cd ryu-master && \
+    cd ryu && \
     python ./setup.py install
 
 # 6633 - OpenFlow

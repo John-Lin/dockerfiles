@@ -1,6 +1,7 @@
 # Ryu SDN Framework
 #
 # Fork from https://registry.hub.docker.com/u/osrg/ryu/dockerfile/
+# and https://registry.hub.docker.com/u/hsrnetwork/ryu/dockerfile/
 
 FROM ubuntu:14.04
 
@@ -13,22 +14,21 @@ RUN apt-get update && \
         python-oslo.config python-paramiko python-routes python-six \
         python-webob unzip wget vim git && \
     apt-get clean && \
-    wget --no-check-certificate https://github.com/osrg/ryu/archive/master.zip && \
-    unzip master.zip && \
-    mv ryu-master ryu && \
-    rm ./master.zip && \
-    cd ryu && \
+    wget -O /opt/ryu.zip "http://github.com/osrg/ryu/archive/master.zip" --no-check-certificate && \ \
+    unzip -q /opt/ryu.zip -d /opt && \
+    mv /opt/ryu-master /opt/ryu && \
+    rm /opt/ryu.zip && \
+    cd /opt/ryu && \
     python ./setup.py install
 
 # 6633 - OpenFlow
 EXPOSE 6633
 
-ENV HOME /root
+# Define working directory.
 WORKDIR /root
 
-
 # Execute simple_siwtch_13.py
-CMD ["ryu-manager", "./ryu/ryu/app/simple_switch_13.py"]
+CMD ["ryu-manager", "ryu/app/simple_switch.py"]
 
 # Download customize SDN applications
 # RUN wget --no-check-certificate url

@@ -25,7 +25,7 @@ RUN apt-get update && \
 EXPOSE 6633
 
 # Define working directory.
-WORKDIR /root
+WORKDIR /opt/ryu
 
 # Execute simple_siwtch_13.py
 CMD ["./bin/ryu-manager", "ryu/app/simple_switch.py"]

@@ -16,7 +16,7 @@ RUN apt-get update && \
     wget --no-check-certificate https://github.com/osrg/ryu/archive/master.zip && \
     unzip master.zip && \
     mv ryu-master ryu && \
-    rm ./ryu-master.zip && \
+    rm ./master.zip && \
     cd ryu && \
     python ./setup.py install
 

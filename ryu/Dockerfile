@@ -14,7 +14,7 @@ RUN apt-get update && \
         python-oslo.config python-paramiko python-routes python-six \
         python-webob unzip wget vim git && \
     apt-get clean && \
-    wget -O /opt/ryu.zip "http://github.com/osrg/ryu/archive/master.zip" --no-check-certificate && \ \
+    wget -O /opt/ryu.zip "http://github.com/osrg/ryu/archive/master.zip" --no-check-certificate && \
     unzip -q /opt/ryu.zip -d /opt && \
     mv /opt/ryu-master /opt/ryu && \
     rm /opt/ryu.zip && \

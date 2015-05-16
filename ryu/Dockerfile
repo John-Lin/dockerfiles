@@ -7,12 +7,12 @@ FROM ubuntu:14.04
 MAINTAINER John Lin <linton.tw@gmail.com>
 
 # Download Ryu source code
-RUN apt-get update &&
+RUN apt-get update && \
     apt-get install -qy --no-install-recommends python-setuptools python-pip \
         python-eventlet python-lxml python-msgpack python-netaddr \
-        python-oslo.config python-paramiko python-routes python-six
+        python-oslo.config python-paramiko python-routes python-six \
         python-webob unzip wget vim git && \
-        apt-get clean && \
+    apt-get clean && \
     wget --no-check-certificate https://github.com/osrg/ryu/archive/master.zip && \
     unzip master.zip && \
     mv ryu-master ryu && \

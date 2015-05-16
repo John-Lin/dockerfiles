@@ -28,7 +28,7 @@ WORKDIR /root
 
 
 # Execute simple_siwtch_13.py
-CMD ["./bin/ryu-manager", "ryu/app/simple_switch_13.py"]
+CMD ["ryu-manager", "ryu/app/simple_switch_13.py"]
 
 # Download customize SDN applications
 # RUN wget --no-check-certificate url

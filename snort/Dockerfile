@@ -15,7 +15,8 @@ RUN apt-get update && apt-get -y install \
         zlib1g-dev \
         iptables-dev \
         libnetfilter-queue1 \
-        vim && \
+        vim \
+        tmux && \
     apt-get clean
 
 # Define working directory.
@@ -49,6 +50,20 @@ RUN mkdir /var/log/snort && \
 # Clean up
 RUN rm -f /opt/snort-${SNORT_VERSION}.tar.gz /opt/daq-${DAQ_VERSION}.tar.gz
 
+# Expose all port for snort promiscuous mode
+# http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml
+EXPOSE 0-65535
+
 ENV NETWORK_INTERFACE eth0
+# Validate an installation
 # snort -T -i eth0 -c /etc/snort/etc/snort.conf
 CMD ["snort", "-T", "-i", "echo ${NETWORK_INTERFACE}", "-c", "/etc/snort/etc/snort.conf"]
+
+
+# For testing add this rule in the file at /etc/snort/rules/local.rules
+# alert icmp any any -> any any (msg:"Pinging...";sid:1000004;)
+
+# Running Snort and alerts to the console (screen).
+# snort -i eth0 -c /etc/snort/etc/snort.conf -A console
+
+# Ping in the container the alert message will show on the console

@@ -16,8 +16,7 @@ RUN apt-get update && apt-get -y install \
         iptables-dev \
         libnetfilter-queue1 \
         vim \
-        tmux && \
-    apt-get clean
+        tmux
 
 # Define working directory.
 WORKDIR /opt
@@ -47,8 +46,9 @@ RUN mkdir /var/log/snort && \
     cp -r /opt/etc /etc/snort/etc && \
     touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules
 
-# Clean up
-RUN rm -f /opt/snort-${SNORT_VERSION}.tar.gz /opt/daq-${DAQ_VERSION}.tar.gz
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    /opt/snort-${SNORT_VERSION}.tar.gz /opt/daq-${DAQ_VERSION}.tar.gz
 
 
 ENV NETWORK_INTERFACE eth0
@@ -56,11 +56,20 @@ ENV NETWORK_INTERFACE eth0
 # snort -T -i eth0 -c /etc/snort/etc/snort.conf
 CMD ["snort", "-T", "-i", "echo ${NETWORK_INTERFACE}", "-c", "/etc/snort/etc/snort.conf"]
 
+# Attach the snort in container to have full access to the network
+#
+# sudo docker run -it --rm --net=host linton/snort /bin/bash
+
+# Or you may need to add --cap-add=NET_ADMIN or --privileged (unsafe)
+#
+# sudo docker run -it --rm --net=host --cap-add=NET_ADMIN linton/snort /bin/bash
 
 # For testing add this rule in the file at /etc/snort/rules/local.rules
-# alert icmp any any -> any any (msg:"Pinging...";sid:1000004;)
+#
+# alert ICMP any any -> any any (msg:"Pinging...";sid:1000004;)
 
 # Running Snort and alerts to the console (screen).
+#
 # snort -i eth0 -c /etc/snort/etc/snort.conf -A console
 
 # Ping in the container the alert message will show on the console

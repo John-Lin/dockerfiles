@@ -37,7 +37,7 @@ RUN mkdir /var/log/snort && \
     mkdir /etc/snort && \
     mkdir -p /etc/snort/rules && \
     touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules && \
-    mkdir -p /usr/local/lib/snort_dynamicrules && \
+    mkdir -p /usr/local/lib/snort_dynamicrules
     # mv /etc/snort/etc/* /etc/snort/
 
 RUN ldconfig

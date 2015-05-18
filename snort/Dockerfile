@@ -35,9 +35,6 @@ RUN wget https://www.snort.org/downloads/snort/snort-${SNORT_VERSION}.tar.gz \
 
 
 RUN mkdir /var/log/snort && \
-    mkdir -p /etc/snort/rules && \
-    mkdir -p /etc/snort/so_rules && \
-    mkdir -p /etc/snort/preproc_rules && \
     touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules && \
     mkdir -p /usr/local/lib/snort_dynamicrules
 
@@ -45,10 +42,14 @@ RUN ldconfig
 
 ENV SNORT_RULES_SNAPSHOT 2972
 ADD snortrules-snapshot-${SNORT_RULES_SNAPSHOT}.tar.gz /opt
-RUN cp /opt/rules/* /etc/snort/rules && \
-    cp /opt/etc/snort.conf /etc/snort/snort.conf
+RUN cp -r /opt/rules /etc/snort/rules && \
+    cp -r /opt/preproc_rules /etc/snort/preproc_rules && \
+    cp -r /opt/so_rules /etc/snort/so_rules && \
+    cp -r /opt/etc /etc/snort/etc
 
 # Clean up
 RUN rm -f /opt/snort-${SNORT_VERSION}.tar.gz /opt/daq-${DAQ_VERSION}.tar.gz
 
-CMD ["snort", "-V"]
+ENV NETWORK_INTERFACE eth0
+# snort -T -i eth0 -c /etc/snort/etc/snort.conf
+CMD ["snort", "-T", "-i", "echo ${NETWORK_INTERFACE}", "-c", "/etc/snort/etc/snort.conf"]

@@ -15,7 +15,7 @@ RUN apt-get update && apt-get -y install \
         zlib1g-dev \
         iptables-dev \
         libnetfilter-queue1 \
-    apt-get clean && \
+    apt-get clean 
 
 # Define working directory.
 WORKDIR /opt

@@ -39,6 +39,7 @@ ENV SNORT_RULES_SNAPSHOT 2972
 ADD snortrules-snapshot-${SNORT_RULES_SNAPSHOT}.tar.gz /opt
 RUN mkdir /var/log/snort && \
     mkdir -p /usr/local/lib/snort_dynamicrules && \
+    mkdir -p /etc/snort && \
     cp -r /opt/rules /etc/snort/rules && \
     cp -r /opt/preproc_rules /etc/snort/preproc_rules && \
     cp -r /opt/so_rules /etc/snort/so_rules && \

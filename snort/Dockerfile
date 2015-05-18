@@ -39,8 +39,8 @@ RUN mkdir /var/log/snort && \
     mkdir -p /etc/snort/rules && \
     touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules && \
     mkdir -p /usr/local/lib/snort_dynamicrules && \
-    mv /etc/snort/etc/* /etc/snort/ && \
-    tar zxvf snortrules-snapshot-${SNORT_RULES_SNAPSHOT}.tar.gz -C /etc/snort/ && \
+    tar zxvf snortrules-snapshot-${SNORT_RULES_SNAPSHOT}.tar.gz -C /etc/snort/
+    # mv /etc/snort/etc/* /etc/snort/
 
 RUN ldconfig
 

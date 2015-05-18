@@ -32,16 +32,18 @@ RUN wget https://www.snort.org/downloads/snort/snort-${SNORT_VERSION}.tar.gz \
     && cd snort-${SNORT_VERSION} \
     && ./configure; make; make install
 
-ENV SNORT_RULES_SNAPSHOT 2972
-ADD snortrules-snapshot-${SNORT_RULES_SNAPSHOT}.tar.gz /opt
+
 RUN mkdir /var/log/snort && \
     mkdir /etc/snort && \
     mkdir -p /etc/snort/rules && \
     touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules && \
     mkdir -p /usr/local/lib/snort_dynamicrules && \
-    tar zxvf snortrules-snapshot-${SNORT_RULES_SNAPSHOT}.tar.gz -C /etc/snort/
     # mv /etc/snort/etc/* /etc/snort/
 
 RUN ldconfig
+
+ENV SNORT_RULES_SNAPSHOT 2972
+ADD snortrules-snapshot-${SNORT_RULES_SNAPSHOT}.tar.gz /opt
+# RUN tar xvfz /opt/snortrules-snapshot-${SNORT_RULES_SNAPSHOT}.tar.gz -C /etc/snort/
 
 CMD ["snort", "-V"]

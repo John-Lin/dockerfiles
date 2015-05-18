@@ -50,9 +50,6 @@ RUN mkdir /var/log/snort && \
 # Clean up
 RUN rm -f /opt/snort-${SNORT_VERSION}.tar.gz /opt/daq-${DAQ_VERSION}.tar.gz
 
-# Expose all port for snort promiscuous mode
-# http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml
-EXPOSE 0-65535
 
 ENV NETWORK_INTERFACE eth0
 # Validate an installation

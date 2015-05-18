@@ -14,7 +14,8 @@ RUN apt-get update && apt-get -y install \
         libdumbnet-dev \
         zlib1g-dev \
         iptables-dev \
-        libnetfilter-queue1 && \
+        libnetfilter-queue1 \
+        vim && \
     apt-get clean
 
 # Define working directory.
@@ -34,16 +35,20 @@ RUN wget https://www.snort.org/downloads/snort/snort-${SNORT_VERSION}.tar.gz \
 
 
 RUN mkdir /var/log/snort && \
-    mkdir /etc/snort && \
     mkdir -p /etc/snort/rules && \
+    mkdir -p /etc/snort/so_rules && \
+    mkdir -p /etc/snort/preproc_rules && \
     touch /etc/snort/rules/white_list.rules /etc/snort/rules/black_list.rules && \
     mkdir -p /usr/local/lib/snort_dynamicrules
-    # mv /etc/snort/etc/* /etc/snort/
 
 RUN ldconfig
 
 ENV SNORT_RULES_SNAPSHOT 2972
 ADD snortrules-snapshot-${SNORT_RULES_SNAPSHOT}.tar.gz /opt
-# RUN tar xvfz /opt/snortrules-snapshot-${SNORT_RULES_SNAPSHOT}.tar.gz -C /etc/snort/
+RUN cp /opt/rules/* /etc/snort/rules && \
+    cp /opt/etc/snort.conf /etc/snort/snort.conf
+
+# Clean up
+RUN rm -f /opt/snort-${SNORT_VERSION}.tar.gz /opt/daq-${DAQ_VERSION}.tar.gz
 
 CMD ["snort", "-V"]

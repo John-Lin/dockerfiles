@@ -14,8 +14,8 @@ RUN apt-get update && apt-get -y install \
         libdumbnet-dev \
         zlib1g-dev \
         iptables-dev \
-        libnetfilter-queue1 \
-    apt-get clean 
+        libnetfilter-queue1 && \
+    apt-get clean
 
 # Define working directory.
 WORKDIR /opt
